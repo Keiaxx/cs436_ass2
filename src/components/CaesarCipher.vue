@@ -38,7 +38,47 @@
                             </div>
                         </v-textarea>
                     </v-flex>
+                    <!-- If your source-code lives in a variable called 'sourcecode' -->
+
+                    <v-dialog
+                            v-model="dialog"
+                            width="500"
+                    >
+                        <v-btn
+                                slot="activator"
+                                color="red lighten-2"
+                                dark
+                        >
+                            Source Code
+                        </v-btn>
+
+                        <v-card>
+                            <v-card-title
+                                    class="headline grey lighten-2"
+                                    primary-title
+                            >
+                                Source Code
+                            </v-card-title>
+
+                            <pre v-highlightjs="sourcecode"><code class="javascript"></code></pre>
+
+                            <v-divider></v-divider>
+
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn
+                                        color="primary"
+                                        flat
+                                        @click="dialog = false"
+                                >
+                                    Close
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-dialog>
+
                 </v-layout>
+
             </v-flex>
         </v-layout>
     </v-container>
@@ -47,14 +87,17 @@
 
 <script>
     import CaesarCipher from '@/classes/CaesarCipher'
+    import rawCaesar from '!raw-loader!@/classes/CaesarCipher.js'
     export default {
         name: "CaesarCipher",
         data(){
             return{
+                dialog: false,
                 original: '',
                 encrypted: '',
                 select: 3,
-                items: [1]
+                items: [1],
+                sourcecode: ''
             }
         },
         methods: {
@@ -89,6 +132,7 @@
         mounted(){
             this.items = this.range(1,26)
             console.log(this.items);
+            this.sourcecode = rawCaesar
         }
     }
 </script>
