@@ -88,10 +88,11 @@
 <script>
     import CaesarCipher from '@/classes/CaesarCipher'
     import rawCaesar from '!raw-loader!@/classes/CaesarCipher.js'
+
     export default {
         name: "CaesarCipher",
-        data(){
-            return{
+        data() {
+            return {
                 dialog: false,
                 original: '',
                 encrypted: '',
@@ -101,36 +102,36 @@
             }
         },
         methods: {
-            range: function(start, end) {
+            range: function (start, end) {
                 var foo = [];
                 for (var i = start; i <= end; i++) {
                     foo.push(i);
                 }
                 return foo;
             },
-            encryptText(){
+            encryptText() {
                 var cipher = new CaesarCipher(this.original);
                 this.encrypted = cipher.encrypt(this.select);
             },
-            decryptText(){
+            decryptText() {
                 var cipher = new CaesarCipher(this.encrypted);
                 this.original = cipher.decrypt(this.select);
             }
         },
         watch: {
-            select: function(value){
+            select: function (value) {
                 console.log(value)
                 this.encryptText();
             },
-            original: function(text){
+            original: function (text) {
                 this.encryptText();
             },
-            encrypted: function(text){
+            encrypted: function (text) {
                 this.decryptText();
             }
         },
-        mounted(){
-            this.items = this.range(1,26)
+        mounted() {
+            this.items = this.range(1, 26)
             console.log(this.items);
             this.sourcecode = rawCaesar
         }

@@ -6,7 +6,7 @@
             tag="section"
     >
         <v-layout row wrap>
-            <v-flex tag="h1" class="headline">Caesar Cipher</v-flex>
+            <v-flex tag="h1" class="headline">One Time Pad (Encrypt Only as of 11:45PM 10/6/2018)</v-flex>
             <v-flex d-flex xs12 order-xs5>
                 <v-layout column>
                     <v-flex>
@@ -24,7 +24,8 @@
                         <v-combobox
                                 v-model="select"
                                 :items="items"
-                                label="k - value (Number of characters to pad by)"
+                                label="One Time Pad"
+                                readonly
                         ></v-combobox>
                     </v-flex>
 
@@ -32,13 +33,54 @@
                         <v-textarea
                                 v-model="encrypted"
                                 color="teal"
+                                readonly
                         >
                             <div slot="label">
                                 "Encrypted" Text
                             </div>
                         </v-textarea>
                     </v-flex>
+                    <!-- If your source-code lives in a variable called 'sourcecode' -->
+
+                    <v-dialog
+                            v-model="dialog"
+                            width="500"
+                    >
+                        <v-btn
+                                slot="activator"
+                                color="red lighten-2"
+                                dark
+                        >
+                            Source Code
+                        </v-btn>
+
+                        <v-card>
+                            <v-card-title
+                                    class="headline grey lighten-2"
+                                    primary-title
+                            >
+                                Source Code
+                            </v-card-title>
+
+                            <pre v-highlightjs="sourcecode"><code class="javascript"></code></pre>
+
+                            <v-divider></v-divider>
+
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn
+                                        color="primary"
+                                        flat
+                                        @click="dialog = false"
+                                >
+                                    Close
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-dialog>
+
                 </v-layout>
+
             </v-flex>
         </v-layout>
     </v-container>
@@ -46,49 +88,57 @@
 </template>
 
 <script>
-    import CaesarCipher from '@/classes/CaesarCipher'
+    import OneTimePad from '@/classes/OneTimePad'
+    import raw from '!raw-loader!@/classes/OneTimePad.js'
+
     export default {
-        name: "CaesarCipher",
-        data(){
-            return{
+        name: "OneTimePad",
+        data() {
+            return {
+                dialog: false,
                 original: '',
                 encrypted: '',
-                select: 3,
-                items: [1]
+                select: 'thequickbrownfoxjumpsoverthelazydog',
+                items: ['thequickbrownfoxjumpsoverthelazydog'],
+                sourcecode: ''
             }
         },
         methods: {
-            range: function(start, end) {
+            range: function (start, end) {
                 var foo = [];
                 for (var i = start; i <= end; i++) {
                     foo.push(i);
                 }
                 return foo;
             },
-            encryptText(){
-                var cipher = new CaesarCipher(this.original);
-                this.encrypted = cipher.encrypt(this.select);
+            encryptText() {
+                var cipher = new OneTimePad(this.select);
+                this.encrypted = cipher.encrypt(this.original);
             },
-            decryptText(){
-                var cipher = new CaesarCipher(this.encrypted);
-                this.original = cipher.decrypt(this.select);
+            decryptText() {
+                var cipher = new OneTimePad(this.select);
+                this.original = cipher.decrypt(this.encrypted);
             }
         },
         watch: {
-            select: function(value){
+            select: function (value) {
                 console.log(value)
                 this.encryptText();
             },
-            original: function(text){
+            original: function (newtext, oldtext) {
+
+                if (newtext.length > this.select.length) {
+                    this.newtext = oldtext;
+                    return;
+                }
                 this.encryptText();
             },
-            encrypted: function(text){
-                this.decryptText();
+            encrypted: function (text) {
+                //this.decryptText();
             }
         },
-        mounted(){
-            this.items = this.range(1,26)
-            console.log(this.items);
+        mounted() {
+            this.sourcecode = raw
         }
     }
 </script>
