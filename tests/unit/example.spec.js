@@ -1,13 +1,23 @@
-import { expect } from 'chai'
-import { shallowMount } from '@vue/test-utils'
-import HelloWorld from '@/components/HelloWorld.vue'
+import {expect} from 'chai'
 
-describe('HelloWorld.vue', () => {
-  it('renders props.msg when passed', () => {
-    const msg = 'new message'
-    const wrapper = shallowMount(HelloWorld, {
-      propsData: { msg }
+import CaesarCipher from '@/classes/CaesarCipher'
+
+describe('CaesarCipher', () => {
+    it('encrypts correctly', () => {
+
+        var cipher = new CaesarCipher("hello world");
+
+        var encrypted = cipher.encrypt(3);
+
+        expect(encrypted).to.equal("khoor zruog")
     })
-    expect(wrapper.text()).to.include(msg)
-  })
+
+    it('decrypts correctly', () => {
+
+        var cipher = new CaesarCipher("khoor zruog");
+
+        var decrypted = cipher.decrypt(3);
+
+        expect(decrypted).to.equal("hello world")
+    })
 })
