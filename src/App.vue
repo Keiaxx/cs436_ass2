@@ -16,6 +16,7 @@
                         <v-icon v-text="item[1]"></v-icon>
                     </v-list-tile-action>
                 </v-list-tile>
+                <a href="https://github.com/Keiaxx/cs436_ass2/">GITHUB</a>
             </v-list>
         </v-navigation-drawer>
         <v-toolbar

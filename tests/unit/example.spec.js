@@ -32,6 +32,6 @@ describe('OneTimePad', () => {
 
         var encrypted = cipher.encrypt("hello world");
 
-        expect(encrypted).to.equal("BMQCJFRCNV")
+        expect(encrypted).to.equal("ALPBIEQBMU")
     })
 })

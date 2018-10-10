@@ -19,7 +19,7 @@ class OneTimePad {
             var keychar = this.key[i].charCodeAt();
 
             //64 is charcode for A
-            var calculatedChar = msgchar + keychar - (65 - 1);
+            var calculatedChar = msgchar + keychar - (65);
 
             //90 is charcode for Z
             //If Z, go back 26 chars
